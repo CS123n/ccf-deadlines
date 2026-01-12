@@ -335,12 +335,12 @@ pub fn ShowTable() -> impl IntoView {
                                     let abs_ddl_str = if abs_ddl.contains(' ') {
                                         format!(
                                             "{}T{}{}",
-                                            item.deadline.split(' ').nth(0).unwrap_or(""),
-                                            item.deadline.split(' ').nth(1).unwrap_or("00:00:00"),
+                                            abs_ddl.split(' ').nth(0).unwrap_or(""),
+                                            abs_ddl.split(' ').nth(1).unwrap_or("00:00:00"),
                                             tz_offset
                                         )
                                     } else {
-                                        format!("{}T23:59:59{}", item.deadline, tz_offset)
+                                        format!("{}T23:59:59{}", abs_ddl, tz_offset)
                                     };
                                     if let Ok(abs_datetime) =
                                         DateTime::parse_from_rfc3339(&abs_ddl_str)
@@ -449,7 +449,7 @@ pub fn ShowTable() -> impl IntoView {
         let input_val = input_value.get();
         if !input_val.is_empty() {
             let input_lower = input_val.to_lowercase();
-            filtered_list.retain(|item| item.id.to_lowercase().contains(&input_lower));
+            filtered_list.retain(|item| item.id.to_lowercase().contains(&input_lower) || item.title.to_lowercase().contains(&input_lower));
         }
 
         // Sorting and Grouping
